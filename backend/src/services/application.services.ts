@@ -1,7 +1,11 @@
-import { ApplicationModel } from '../models/applicationModel';
+import { ApplicationModel } from "../models/application.models";
 
 export class ApplicationService {
-  async applyToCampaign(data: { user: string; campaign: string; status: string }) {
+  async applyToCampaign(data: {
+    user: string;
+    campaign: string;
+    status: string;
+  }) {
     const application = new ApplicationModel(data);
     await application.save();
     return application;

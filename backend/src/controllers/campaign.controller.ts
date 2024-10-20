@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { CampaignService } from '../services/campaign.services';
+import { Request, Response } from "express";
+import { CampaignService } from "../services/campaign.services";
 
 const campaignService = new CampaignService();
 

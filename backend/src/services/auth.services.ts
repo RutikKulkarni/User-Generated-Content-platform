@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/userModel';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { UserModel } from "../models/user.models";
 
 export class AuthService {
   async register(data: { name: string; email: string; password: string }) {
@@ -12,12 +12,14 @@ export class AuthService {
 
   async login(data: { email: string; password: string }) {
     const user = await UserModel.findOne({ email: data.email });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     const isValid = await bcrypt.compare(data.password, user.password);
-    if (!isValid) throw new Error('Invalid credentials');
+    if (!isValid) throw new Error("Invalid credentials");
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, {
+      expiresIn: "1h",
+    });
     return token;
   }
 }
