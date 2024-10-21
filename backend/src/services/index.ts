@@ -19,7 +19,6 @@ import {
 import { generateAuthToken } from "./token.service";
 
 export const authService = { registerUser, loginUser, resetUserPass };
-
 export const tokenService = { generateAuthToken };
 
 export const campaignService = {

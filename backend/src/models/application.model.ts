@@ -1,8 +1,5 @@
 import mongoose, { Document } from "mongoose";
 
-/**
- * Interface representing an application document in MongoDB.
- */
 interface ApplicationDocument extends Document {
   creator_id: mongoose.Types.ObjectId;
   campaign_id: mongoose.Types.ObjectId;
@@ -11,9 +8,6 @@ interface ApplicationDocument extends Document {
   approved_at?: Date;
 }
 
-/**
- * Mongoose schema for the application model.
- */
 const applicationSchema = new mongoose.Schema<ApplicationDocument>({
   creator_id: {
     type: mongoose.Schema.Types.ObjectId,

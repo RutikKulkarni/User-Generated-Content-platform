@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import { ApiError } from "../utils/ApiError";
 import { User } from "../models";
-import { UserDocument } from "../models/user.models";
+import { UserDocument } from "../models/user.model";
 
 interface UserAuthProps {
   fullName?: string;
