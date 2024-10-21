@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import Jwt from "jsonwebtoken";
-
 import { config } from "../config/config";
 
 declare global {
@@ -30,7 +29,6 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
         .status(httpStatus.FORBIDDEN)
         .send({ message: err.message, statusCode: httpStatus.FORBIDDEN });
     }
-
     req.user = user;
     next();
   });

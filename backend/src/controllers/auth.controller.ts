@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-
 import { catchAsync } from "../utils/catchAsync";
 import { authService, tokenService } from "../services";
 
