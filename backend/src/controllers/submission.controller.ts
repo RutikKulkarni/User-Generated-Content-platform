@@ -1,22 +1,59 @@
 import { Request, Response } from "express";
-import { SubmissionService } from "../services/submission.services";
+import { catchAsync } from "../utils/catchAsync";
+import httpStatus from "http-status";
+import { submissionService } from "../services";
 
-const submissionService = new SubmissionService();
+/**
+ * Upload a submission.
+ *
+ * @param {Request} req - The request object, containing submission data in req.body.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the created submission result in the response.
+ */
+const uploadSubmission = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body; // Extracting submission data from request body
+  const result = await submissionService.uploadSubmission(data);
+  return res.status(httpStatus.CREATED).send(result);
+});
 
-export const submitContent = async (req: Request, res: Response) => {
-  try {
-    const submission = await submissionService.submitContent(req.body);
-    res.status(201).json(submission);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+/**
+ * Get submissions for a specific application.
+ *
+ * @param {Request} req - The request object, containing applicationId in req.params.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the submissions for the specified application in the response.
+ */
+const getSubmissionsByApplication = catchAsync(
+  async (req: Request, res: Response) => {
+    const { submissionId } = req.params; // Extracting submissionId from request parameters
+    const result = await submissionService.getSubmissionsByApplication(
+      submissionId
+    );
+    return res.status(httpStatus.OK).send(result);
   }
-};
+);
 
-export const getSubmissions = async (req: Request, res: Response) => {
-  try {
-    const submissions = await submissionService.getSubmissions();
-    res.status(200).json(submissions);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+/**
+ * Update the status of a specific submission.
+ *
+ * @param {Request} req - The request object, containing submissionId in req.params and status in req.body.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the updated submission result in the response.
+ */
+const updateSubmissionStatus = catchAsync(
+  async (req: Request, res: Response) => {
+    const { submissionId } = req.params; // Extracting submissionId from request parameters
+    const { status } = req.body; // Extracting status from request body
+    const result = await submissionService.updateSubmissionStatus(
+      submissionId,
+      status
+    );
+    return res.status(httpStatus.OK).send(result);
   }
+);
+
+export {
+  uploadSubmission,
+  getSubmissionsByApplication,
+  updateSubmissionStatus,
 };

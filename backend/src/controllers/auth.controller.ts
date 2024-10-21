@@ -1,22 +1,46 @@
 import { Request, Response } from "express";
-import { AuthService } from "../services/auth.services";
+import httpStatus from "http-status";
 
-const authService = new AuthService();
+import { catchAsync } from "../utils/catchAsync";
+import { authService, tokenService } from "../services";
 
-export const register = async (req: Request, res: Response) => {
-  try {
-    const user = await authService.register(req.body);
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+/**
+ * Handles user registration by validating input, registering the user, and generating an authentication token.
+ * @param {Request} req - The Express request object. This object contains the user's registration details in the request body.
+ * @param {Response} res - The Express response object. This object is used to send the HTTP response back to the client.
+ * @returns {Promise<void>} - Returns a promise that resolves to void. Sends a response with a status code of 201 (Created) if registration is successful.
+ * @throws {ApiError} - Throws an error if registration or token generation fails. Error handling is managed by the `catchAsync` utility.
+ */
+const register = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    const token = await authService.login(req.body);
-    res.status(200).json({ token });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+  const result = await authService.registerUser(data);
+
+  const token = await tokenService.generateAuthToken(result);
+
+  return res.status(httpStatus.CREATED).send({
+    message: "User registered successfully",
+    data: result,
+    tokenDetails: token,
+  });
+});
+
+/**
+ * Handles user login by validating input and authenticating the user.
+ * @param {Request} req - The Express request object. This object contains the user's login details in the request body.
+ * @param {Response} res - The Express response object. This object is used to send the HTTP response back to the client.
+ * @returns {Promise<void>} - Returns a promise that resolves to void. Sends a response with a status code of 200 (OK) if login is successful.
+ * @throws {ApiError} - Throws an error if authentication fails. Error handling is managed by the `catchAsync` utility.
+ */
+const login = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+
+  const result = await authService.loginUser(data);
+
+  return res.status(httpStatus.OK).send({
+    message: "User loggedIn successfully",
+    data: result,
+  });
+});
+
+export { register, login };

@@ -1,22 +1,81 @@
 import { Request, Response } from "express";
-import { CampaignService } from "../services/campaign.services";
+import { catchAsync } from "../utils/catchAsync";
+import { campaignService } from "../services";
+import httpStatus from "http-status";
 
-const campaignService = new CampaignService();
+/**
+ * Create a new campaign.
+ *
+ * @param {Request} req - The request object, containing campaign data in req.body and user information in req.user.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the created campaign result in the response.
+ */
+const createCampaign = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await campaignService.newCampaign({
+    ...data,
+    brandId: req.user,
+  });
+  return res.status(httpStatus.CREATED).send(result);
+});
 
-export const createCampaign = async (req: Request, res: Response) => {
-  try {
-    const campaign = await campaignService.createCampaign(req.body);
-    res.status(201).json(campaign);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+/**
+ * Get all campaigns for a specific brand.
+ *
+ * @param {Request} req - The request object, containing user information in req.user.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the campaigns for the specified brand in the response.
+ */
+const getCampaignsByBrand = catchAsync(async (req: Request, res: Response) => {
+  const brandId = req.user;
+  const result = await campaignService.fetchCampaignsByBrand(brandId);
+  return res.status(httpStatus.OK).send(result);
+});
 
-export const getCampaigns = async (req: Request, res: Response) => {
-  try {
-    const campaigns = await campaignService.getCampaigns();
-    res.status(200).json(campaigns);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+/**
+ * Get a specific campaign by its ID.
+ *
+ * @param {Request} req - The request object, containing campaignId in req.params.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the specified campaign in the response.
+ */
+const getCampaignById = catchAsync(async (req: Request, res: Response) => {
+  const { campaignId } = req.params;
+  const result = await campaignService.fetchCampaignById(campaignId);
+  return res.status(httpStatus.OK).send(result);
+});
+
+/**
+ * Update a specific campaign by its ID.
+ *
+ * @param {Request} req - The request object, containing campaignId in req.params and updated data in req.body.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the updated campaign result in the response.
+ */
+const updateCampaign = catchAsync(async (req: Request, res: Response) => {
+  const { campaignId } = req.params;
+  const data = req.body;
+  const result = await campaignService.updateCampaign(data, campaignId);
+  return res.status(httpStatus.OK).send(result);
+});
+
+/**
+ * Delete a specific campaign by its ID.
+ *
+ * @param {Request} req - The request object, containing campaignId in req.params.
+ * @param {Response} res - The response object used to send back the desired HTTP response.
+ * @returns {Promise<void>} Sends the result of the deletion in the response.
+ */
+const deleteCampaign = catchAsync(async (req: Request, res: Response) => {
+  const { campaignId } = req.params;
+  const result = await campaignService.deleteCampaign(campaignId);
+  return res.status(httpStatus.OK).send(result);
+});
+
+export {
+  createCampaign,
+  getCampaignsByBrand,
+  getCampaignById,
+  updateCampaign,
+  deleteCampaign,
 };
