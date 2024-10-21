@@ -1,8 +1,5 @@
 import mongoose, { Document } from "mongoose";
 
-/**
- * Interface representing a campaign document in MongoDB.
- */
 interface CampaignDocument extends Document {
   brandId: mongoose.Types.ObjectId;
   title: string;
@@ -10,9 +7,6 @@ interface CampaignDocument extends Document {
   deadline: Date;
 }
 
-/**
- * Mongoose schema for the campaign model.
- */
 const campaignSchema = new mongoose.Schema<CampaignDocument>(
   {
     brandId: {
@@ -36,9 +30,6 @@ const campaignSchema = new mongoose.Schema<CampaignDocument>(
   { timestamps: true }
 );
 
-/**
- * Mongoose model for the campaign.
- */
 const campaignModel = mongoose.model<CampaignDocument>(
   "Campaign",
   campaignSchema

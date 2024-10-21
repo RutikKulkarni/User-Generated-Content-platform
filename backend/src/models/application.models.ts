@@ -39,9 +39,6 @@ const applicationSchema = new mongoose.Schema<ApplicationDocument>({
   },
 });
 
-/**
- * Mongoose model for the application.
- */
 const applicationModel = mongoose.model<ApplicationDocument>(
   "Application",
   applicationSchema

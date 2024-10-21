@@ -4,7 +4,6 @@ import Jwt from "jsonwebtoken";
 
 import { config } from "../config/config";
 
-// Extend the Request interface to include a user property
 declare global {
   namespace Express {
     interface Request {
@@ -13,13 +12,6 @@ declare global {
   }
 }
 
-/**
- * Middleware for authenticating JWT tokens.
- *
- * @param {Request} req - Express request object.
- * @param {Response} res - Express response object.
- * @param {NextFunction} next - Express next function.
- */
 const auth = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   const token: string | undefined =

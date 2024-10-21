@@ -1,8 +1,5 @@
 import mongoose, { Document } from "mongoose";
 
-/**
- * Interface representing a submission document in MongoDB.
- */
 interface SubmissionDocument extends Document {
   application_id: mongoose.Types.ObjectId;
   content_url: string;
@@ -11,9 +8,6 @@ interface SubmissionDocument extends Document {
   approved_at?: Date;
 }
 
-/**
- * Mongoose schema for the submission model.
- */
 const submissionSchema = new mongoose.Schema<SubmissionDocument>({
   application_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -38,9 +32,6 @@ const submissionSchema = new mongoose.Schema<SubmissionDocument>({
   },
 });
 
-/**
- * Mongoose model for the submission.
- */
 const submissionModel = mongoose.model<SubmissionDocument>(
   "Submission",
   submissionSchema

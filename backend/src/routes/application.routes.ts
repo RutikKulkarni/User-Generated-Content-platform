@@ -1,13 +1,19 @@
-import { Router } from "express";
-import {
-  applyToCampaign,
-  getApplications,
-} from "../controllers/application.controller";
-import { authMiddleware } from "../middlewares/auth.middlewares";
+import express, { Request, Response } from "express";
+import { auth } from "../middlewares/auth";
+import { applicationController } from "../controllers";
 
-const router = Router();
+const router = express.Router();
 
-router.post("/", authMiddleware, applyToCampaign);
-router.get("/", authMiddleware, getApplications);
+router.post("/", auth, (req: Request, res: Response) =>
+  applicationController.applyToCampaign(req, res)
+);
+
+router.get("/:campaignId", auth, (req: Request, res: Response) =>
+  applicationController.getApplicationsByCampaign(req, res)
+);
+
+router.patch("/:applicationId/status", auth, (req: Request, res: Response) =>
+  applicationController.updateApplicationStatus(req, res)
+);
 
 export default router;

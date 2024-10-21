@@ -17,13 +17,11 @@ import {
   updateSubmissionStatus,
 } from "./submission.controller";
 
-// Export an object with multiple authentication controller methods
 export const authController = {
   register,
   login,
 };
 
-// Export an object with multiple campaign controller methods
 export const campaignController = {
   createCampaign,
   getCampaignsByBrand,
@@ -32,14 +30,12 @@ export const campaignController = {
   deleteCampaign,
 };
 
-// Export an object with multiple application controller methods
 export const applicationController = {
   applyToCampaign,
   getApplicationsByCampaign,
   updateApplicationStatus,
 };
 
-// Export an object with multiple submission controller methods
 export const submissionController = {
   uploadSubmission,
   getSubmissionsByApplication,
