@@ -1,18 +1,49 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-export interface ISubmission extends Document {
-  user: string;
-  campaign: string;
-  contentUrl: string;
+/**
+ * Interface representing a submission document in MongoDB.
+ */
+interface SubmissionDocument extends Document {
+  application_id: mongoose.Types.ObjectId;
+  content_url: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  submitted_at: Date;
+  approved_at?: Date;
 }
 
-const submissionSchema = new Schema<ISubmission>({
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  campaign: { type: Schema.Types.ObjectId, ref: "Campaign", required: true },
-  contentUrl: { type: String, required: true },
+/**
+ * Mongoose schema for the submission model.
+ */
+const submissionSchema = new mongoose.Schema<SubmissionDocument>({
+  application_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Application",
+    required: true,
+  },
+  content_url: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["PENDING", "APPROVED", "REJECTED"],
+    default: "PENDING",
+  },
+  submitted_at: {
+    type: Date,
+    default: Date.now,
+  },
+  approved_at: {
+    type: Date,
+  },
 });
 
-export const SubmissionModel = mongoose.model<ISubmission>(
+/**
+ * Mongoose model for the submission.
+ */
+const submissionModel = mongoose.model<SubmissionDocument>(
   "Submission",
   submissionSchema
 );
+
+export { submissionModel, SubmissionDocument };

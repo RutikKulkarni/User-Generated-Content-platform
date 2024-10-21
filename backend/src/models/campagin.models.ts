@@ -1,18 +1,47 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-export interface ICampaign extends Document {
+/**
+ * Interface representing a campaign document in MongoDB.
+ */
+interface CampaignDocument extends Document {
+  brandId: mongoose.Types.ObjectId;
   title: string;
   description: string;
-  creator: string;
+  deadline: Date;
 }
 
-const campaignSchema = new Schema<ICampaign>({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  creator: { type: Schema.Types.ObjectId, ref: "User", required: true },
-});
+/**
+ * Mongoose schema for the campaign model.
+ */
+const campaignSchema = new mongoose.Schema<CampaignDocument>(
+  {
+    brandId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    deadline: {
+      type: Date,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-export const CampaignModel = mongoose.model<ICampaign>(
+/**
+ * Mongoose model for the campaign.
+ */
+const campaignModel = mongoose.model<CampaignDocument>(
   "Campaign",
   campaignSchema
 );
+
+export { campaignModel, CampaignDocument };
