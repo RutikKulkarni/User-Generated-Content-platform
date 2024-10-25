@@ -65,7 +65,7 @@ const BrandDashboard: React.FC<{ endpoint: string }> = ({ endpoint }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="p-6">
       <div className="bg-white shadow-md rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800">Brand Dashboard</h1>
         {notification && (
