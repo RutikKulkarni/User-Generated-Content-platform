@@ -1,45 +1,6 @@
-// import React, { useState } from "react";
-// import { CampaignList } from "./campaign-list";
-// import { CreateCampaignModal } from "./campaign-modal";
-
-// const BrandDashboard: React.FC = () => {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [notification, setNotification] = useState("");
-
-//   const handleCreateCampaign = (
-//     title: string,
-//     description: string,
-//     deadline: string
-//   ) => {
-//     setNotification(`Campaign "${title}" created successfully!`);
-//     setIsModalOpen(false);
-//   };
-
-//   return (
-//     <div className="p-5">
-//       <h1 className="text-2xl font-bold">Brand Dashboard</h1>
-//       {notification && <p className="text-green-500">{notification}</p>}
-//       <button
-//         onClick={() => setIsModalOpen(true)}
-//         className="mt-4 bg-blue-500 text-white p-2 rounded"
-//       >
-//         Create New Campaign
-//       </button>
-//       <CampaignList />
-//       <CreateCampaignModal
-//         isOpen={isModalOpen}
-//         onClose={() => setIsModalOpen(false)}
-//         onCreate={handleCreateCampaign}
-//       />
-//     </div>
-//   );
-// };
-
-// export default BrandDashboard;
-
 import React, { useEffect, useState } from "react";
-import { CampaignList } from "./campaign-list";
-import { CreateCampaignModal } from "./campaign-modal";
+import { CampaignList } from "./Campaign-list";
+import { CreateCampaignModal } from "./Campaign-modal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -104,16 +65,22 @@ const BrandDashboard: React.FC<{ endpoint: string }> = ({ endpoint }) => {
   };
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold">Brand Dashboard</h1>
-      {notification && <p className="text-green-500">{notification}</p>}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="mt-4 bg-blue-500 text-white p-2 rounded"
-      >
-        Create New Campaign
-      </button>
-      <CampaignList campaigns={campaigns} />
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-gray-800">Brand Dashboard</h1>
+        {notification && (
+          <p className="mt-2 text-green-500 font-semibold">{notification}</p>
+        )}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+        >
+          Create New Campaign
+        </button>
+        <div className="mt-6">
+          <CampaignList campaigns={campaigns} />
+        </div>
+      </div>
       <CreateCampaignModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

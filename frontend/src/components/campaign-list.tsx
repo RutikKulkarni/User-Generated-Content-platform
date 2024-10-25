@@ -1,43 +1,5 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-
-// interface Campaign {
-//   id: string;
-//   title: string;
-//   description: string;
-// }
-
-// export const CampaignList: React.FC = () => {
-//   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-
-//   useEffect(() => {
-//     const fetchCampaigns = async () => {
-//       const response = await axios.get("/api/campaigns");
-//       setCampaigns(response.data);
-//     };
-
-//     fetchCampaigns();
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>Campaigns</h1>
-//       <ul>
-//         {campaigns.map((campaign) => (
-//           <li key={campaign.id}>
-//             <h2>{campaign.title}</h2>
-//             <p>{campaign.description}</p>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// src/components/CampaignList.tsx
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { FaTrash } from "react-icons/fa";
 
 interface Campaign {
   id: string;
@@ -46,18 +8,29 @@ interface Campaign {
 }
 
 interface CampaignListProps {
-  campaigns: string[];
+  campaigns: Campaign[];
 }
 
 export const CampaignList: React.FC<CampaignListProps> = ({ campaigns }) => {
   return (
-    <div>
-      <h1>Campaigns</h1>
-      <ul>
-        {campaigns?.map((campaign: any) => (
-          <li key={campaign.id}>
-            <h2>{campaign.title}</h2>
-            <p>{campaign.description}</p>
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Campaigns</h1>
+      <ul className="space-y-4">
+        {campaigns?.map((campaign) => (
+          <li
+            key={campaign.id}
+            className="border rounded-lg p-4 bg-white shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col md:flex-row justify-between items-start md:items-center"
+          >
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold text-gray-900">{campaign.title}</h2>
+              <p className="mt-2 text-gray-600">{campaign.description}</p>
+            </div>
+            <button
+              className="mt-4 md:mt-0 md:ml-4 p-2 text-red-500 hover:text-red-700 transition duration-200"
+              aria-label="Delete Campaign"
+            >
+              <FaTrash className="w-5 h-5" />
+            </button>
           </li>
         ))}
       </ul>

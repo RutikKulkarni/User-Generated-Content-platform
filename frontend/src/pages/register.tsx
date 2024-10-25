@@ -59,21 +59,23 @@ export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
   console.log(data, "DATA");
 
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-5">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col space-y-6 md:w-1/2 w-[90%] border p-10"
+        className="flex flex-col space-y-6 w-full max-w-md border bg-white p-10 rounded-lg shadow-lg"
       >
-        <h2 className="text-xl">Register</h2>
-        {error && <p className="text-red-500">{error}</p>}
-        {success && <p className="text-green-500">{success}</p>}
+        <h2 className="text-2xl font-bold text-center text-gray-800">
+          Register
+        </h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {success && <p className="text-green-500 text-center">{success}</p>}
         <input
           type="text"
           value={data.fullName}
           onChange={handleChange}
           placeholder="Name"
           id="fullName"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <input
@@ -82,7 +84,7 @@ export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
           id="email"
           onChange={handleChange}
           placeholder="Email"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <input
@@ -91,7 +93,7 @@ export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
           onChange={handleChange}
           placeholder="Password"
           id="password"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <input
@@ -100,29 +102,33 @@ export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
           onChange={handleChange}
           placeholder="Confirm Password"
           id="confirmPassword"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <select
           value={data.role}
           onChange={handleChange}
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           id="role"
+          required
         >
-          <option value="" defaultChecked>
+          <option value="" disabled>
             I am a
           </option>
           <option value="BRAND">Brand</option>
           <option value="CREATOR">Creator</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+        >
           Register
         </button>
 
-        <p>
-          Already have an account?
+        <p className="text-center">
+          Already have an account?{" "}
           <span
-            className="ml-3 text-blue-500 hover:underline cursor-pointer"
+            className="ml-1 text-blue-500 hover:underline cursor-pointer"
             onClick={() => navigate("/login")}
           >
             Login

@@ -39,20 +39,20 @@ export const Login: React.FC<LoginProps> = ({ endpoint }) => {
     }));
 
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-5">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col space-y-6 md:w-1/2 w-[90%] border p-10"
+        className="flex flex-col space-y-6 w-full max-w-md border bg-white p-10 rounded-lg shadow-lg"
       >
-        <h2 className="text-xl">Login</h2>
-        {error && <p className="text-red-500">{error}</p>}
+        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <input
           type="email"
           value={data.email}
           id="email"
           onChange={handleChange}
           placeholder="Email"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <input
@@ -61,29 +61,33 @@ export const Login: React.FC<LoginProps> = ({ endpoint }) => {
           value={data.password}
           onChange={handleChange}
           placeholder="Password"
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           required
         />
         <select
           value={data.role}
           id="role"
           onChange={handleChange}
-          className="border p-2"
+          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          required
         >
-          <option value="" defaultChecked>
+          <option value="" disabled>
             I am a
           </option>
           <option value="BRAND">Brand</option>
           <option value="CREATOR">Creator</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+        >
           Login
         </button>
 
-        <p>
+        <p className="text-center">
           Don't have an account?{" "}
           <span
-            className="ml-3 text-blue-500 hover:underline cursor-pointer"
+            className="ml-1 text-blue-500 hover:underline cursor-pointer"
             onClick={() => navigate("/register")}
           >
             Register

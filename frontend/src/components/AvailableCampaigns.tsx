@@ -33,22 +33,22 @@ const AvailableCampaigns: React.FC = () => {
   };
 
   return (
-    <div className="mt-5">
-      <h2 className="text-xl font-semibold">Available Campaigns</h2>
-      <div className="mt-2">
+    <div className="mt-5 max-w-4xl mx-auto px-4">
+      <h2 className="text-2xl font-semibold text-gray-800">Available Campaigns</h2>
+      <div className="mt-4 space-y-4">
         {campaigns.map((campaign) => (
           <div
             key={campaign.id}
-            className="border p-4 mb-2 flex justify-between items-center"
+            className="border rounded-lg p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white shadow-md hover:shadow-lg transition-shadow duration-200"
           >
-            <div>
-              <h3 className="font-bold">{campaign.title}</h3>
-              <p>{campaign.description}</p>
-              <p>Deadline: {campaign.deadline}</p>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-800">{campaign.title}</h3>
+              <p className="mt-1 text-gray-600">{campaign.description}</p>
+              <p className="mt-2 text-sm text-gray-500">Deadline: {campaign.deadline}</p>
             </div>
             <button
               onClick={() => handleApply(campaign.id)}
-              className="bg-blue-500 text-white p-2 rounded"
+              className="mt-4 sm:mt-0 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
             >
               Apply
             </button>
