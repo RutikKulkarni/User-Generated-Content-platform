@@ -8,12 +8,9 @@ const register = catchAsync(async (req: Request, res: Response) => {
 
   const result = await authService.registerUser(data);
 
-  const token = await tokenService.generateAuthToken(result);
-
   return res.status(httpStatus.CREATED).send({
     message: "User registered successfully",
     data: result,
-    tokenDetails: token,
   });
 });
 
@@ -22,9 +19,12 @@ const login = catchAsync(async (req: Request, res: Response) => {
 
   const result = await authService.loginUser(data);
 
+  const token = await tokenService.generateAuthToken(result);
+
   return res.status(httpStatus.OK).send({
     message: "User loggedIn successfully",
     data: result,
+    tokenDetails: token,
   });
 });
 

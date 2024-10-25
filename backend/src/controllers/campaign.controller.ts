@@ -7,13 +7,13 @@ const createCampaign = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
   const result = await campaignService.newCampaign({
     ...data,
-    brandId: req.user,
+    brandId: req.user.sub,
   });
   return res.status(httpStatus.CREATED).send(result);
 });
 
 const getCampaignsByBrand = catchAsync(async (req: Request, res: Response) => {
-  const brandId = req.user;
+  const brandId = req.user.sub;
   const result = await campaignService.fetchCampaignsByBrand(brandId);
   return res.status(httpStatus.OK).send(result);
 });

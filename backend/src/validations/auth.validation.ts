@@ -5,11 +5,13 @@ const register: Joi.ObjectSchema = Joi.object().keys({
   fullName: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required().custom(password),
+  role: Joi.string().required(),
 });
 
 const login: Joi.ObjectSchema = Joi.object().keys({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
+  role: Joi.string().required(),
 });
 
 const resetPassword: Joi.ObjectSchema = Joi.object().keys({

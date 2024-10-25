@@ -1,39 +1,62 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface RegisterProps {
   endpoint: string;
 }
 
 export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState<"brand" | "creator">("brand");
+  const [data, setData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "",
+  });
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !email || !password || !confirmPassword) {
+    if (
+      !data.fullName ||
+      !data.email ||
+      !data.password ||
+      !data.confirmPassword
+    ) {
       setError("All fields are required.");
       return;
     }
-    if (password !== confirmPassword) {
+    if (data.password !== data.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
     try {
-      await axios.post(`${endpoint}/api/register`, { name, email, password, role });
+      await axios.post(`${endpoint}/api/auth/register`, {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+      });
       setSuccess("Registration successful! Please log in.");
       setError("");
     } catch (err) {
       setError("Registration failed. Please try again.");
     }
   };
+
+  const handleChange = (e: any) =>
+    setData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+
+  console.log(data, "DATA");
 
   return (
     <div className="w-full h-[100vh] flex items-center justify-center">
@@ -46,47 +69,65 @@ export const Register: React.FC<RegisterProps> = ({ endpoint }) => {
         {success && <p className="text-green-500">{success}</p>}
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={data.fullName}
+          onChange={handleChange}
           placeholder="Name"
+          id="fullName"
           className="border p-2"
           required
         />
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={data.email}
+          id="email"
+          onChange={handleChange}
           placeholder="Email"
           className="border p-2"
           required
         />
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={data.password}
+          onChange={handleChange}
           placeholder="Password"
+          id="password"
           className="border p-2"
           required
         />
         <input
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={data.confirmPassword}
+          onChange={handleChange}
           placeholder="Confirm Password"
+          id="confirmPassword"
           className="border p-2"
           required
         />
         <select
-          value={role}
-          onChange={(e) => setRole(e.target.value as "brand" | "creator")}
+          value={data.role}
+          onChange={handleChange}
           className="border p-2"
+          id="role"
         >
-          <option value="brand">Brand</option>
-          <option value="creator">Creator</option>
+          <option value="" defaultChecked>
+            I am a
+          </option>
+          <option value="BRAND">Brand</option>
+          <option value="CREATOR">Creator</option>
         </select>
         <button type="submit" className="bg-blue-500 text-white p-2">
           Register
         </button>
+
+        <p>
+          Already have an account?
+          <span
+            className="ml-3 text-blue-500 hover:underline cursor-pointer"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </span>
+        </p>
       </form>
     </div>
   );

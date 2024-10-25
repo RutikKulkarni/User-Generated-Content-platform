@@ -34,7 +34,6 @@
 //   );
 // };
 
-
 // src/components/CampaignList.tsx
 
 import React, { useEffect, useState } from "react";
@@ -47,30 +46,15 @@ interface Campaign {
 }
 
 interface CampaignListProps {
-  endpoint: string;
+  campaigns: string[];
 }
 
-export const CampaignList: React.FC<CampaignListProps> = ({ endpoint }) => {
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const response = await axios.get(`${endpoint}/api/campaigns`);
-        setCampaigns(response.data);
-      } catch (error) {
-        console.error('Error fetching campaigns:', error);
-      }
-    };
-
-    fetchCampaigns();
-  }, [endpoint]); 
-
+export const CampaignList: React.FC<CampaignListProps> = ({ campaigns }) => {
   return (
     <div>
       <h1>Campaigns</h1>
       <ul>
-        {campaigns.map((campaign) => (
+        {campaigns?.map((campaign: any) => (
           <li key={campaign.id}>
             <h2>{campaign.title}</h2>
             <p>{campaign.description}</p>

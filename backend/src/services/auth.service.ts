@@ -18,7 +18,7 @@ const registerUser = async ({
   role,
 }: UserAuthProps): Promise<UserDocument> => {
   try {
-    let user = await findUserByUsername(email);
+    let user = await findUserByEmailAndRole(email, role!);
 
     if (user) {
       throw new ApiError(
@@ -51,10 +51,11 @@ const registerUser = async ({
 const loginUser = async ({
   email,
   password,
+  role,
   tokenId,
 }: UserAuthProps): Promise<UserDocument> => {
   try {
-    let user = await findUserByUsername(email);
+    let user = await findUserByEmailAndRole(email, role!);
 
     if (!user) {
       throw new ApiError(
@@ -63,9 +64,9 @@ const loginUser = async ({
       );
     }
 
-    if (String(user._id) !== tokenId) {
-      throw new ApiError(`Unauthorized access`, httpStatus.FORBIDDEN);
-    }
+    // if (String(user._id) !== tokenId) {
+    //   throw new ApiError(`Unauthorized access`, httpStatus.FORBIDDEN);
+    // }
 
     if (!(await user.comparePassword(password))) {
       throw new ApiError("Incorrect password", httpStatus.BAD_REQUEST);
@@ -118,9 +119,10 @@ const resetUserPass = async (
   }
 };
 
-const findUserByUsername = async (
-  username: string
-): Promise<UserDocument | null> => await User.Model.findOne({ username });
+const findUserByEmailAndRole = async (
+  email: string,
+  role: string
+): Promise<UserDocument | null> => await User.Model.findOne({ email, role });
 
 const saveDocument = async (doc: UserDocument): Promise<UserDocument> =>
   await doc.save();

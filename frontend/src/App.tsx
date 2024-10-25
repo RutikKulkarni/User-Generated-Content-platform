@@ -6,7 +6,7 @@ import BrandDashboard from "./components/brand-dashoard";
 import Home from "./components/Home";
 
 const App = () => {
-  const endpoint = process.env.REACT_APP_API_URL || '';
+  const endpoint = process.env.REACT_APP_API_URL || "http://localhost:8082";
 
   return (
     <Router>
@@ -14,7 +14,10 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login endpoint={endpoint} />} />
         <Route path="/register" element={<Register endpoint={endpoint} />} />
-        <Route path="/dashboard" element={<BrandDashboard endpoint={endpoint} />} />
+        <Route
+          path="/dashboard"
+          element={<BrandDashboard endpoint={endpoint} />}
+        />
       </Routes>
     </Router>
   );

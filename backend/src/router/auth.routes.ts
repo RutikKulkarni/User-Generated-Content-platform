@@ -2,7 +2,6 @@ import { Router, Request, Response } from "express";
 import { authController } from "../controllers";
 import { validate } from "../middlewares";
 import { authValidation } from "../validations";
-import { auth } from "../middlewares/auth";
 
 const router = Router();
 
@@ -14,7 +13,6 @@ router.post(
 
 router.post(
   "/login",
-  auth,
   validate.body(authValidation.login),
   (req: Request, res: Response) => authController.login(req, res)
 );
