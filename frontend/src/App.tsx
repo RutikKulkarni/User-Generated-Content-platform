@@ -2,15 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
-import BrandDashboard from "./components/Brand-dashoard";
-import CreatorDashboard from "./components/Creator-dashoard";
+import Dashboard from "./pages/dashboard";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 const App = () => {
   const endpoint = process.env.REACT_APP_API_URL || "http://localhost:8082";
-  const userRole = localStorage.getItem("userRole");
 
   return (
     <Router>
@@ -23,13 +21,7 @@ const App = () => {
             <Route path="/register" element={<Register endpoint={endpoint} />} />
             <Route
               path="/dashboard"
-              element={
-                userRole === "BRAND" ? (
-                  <BrandDashboard endpoint={endpoint} />
-                ) : (
-                  <CreatorDashboard />
-                )
-              }
+              element={<Dashboard endpoint={endpoint} />}
             />
           </Routes>
         </main>

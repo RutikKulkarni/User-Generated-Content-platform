@@ -8,12 +8,15 @@ const Dashboard: React.FC<{ endpoint: string }> = ({ endpoint }) => {
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
-    if (!authToken) {
+    const userRole = localStorage.getItem("userRole")?.toLowerCase();
+
+    // Redirect if not authenticated
+    if (!authToken || (userRole !== "brand" && userRole !== "creator")) {
       navigate("/login");
     }
   }, [navigate]);
 
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem("userRole")?.toLowerCase();
 
   return (
     <div className="dashboard-container">
