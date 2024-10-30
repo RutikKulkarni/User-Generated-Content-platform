@@ -26,6 +26,7 @@ export const Login: React.FC<LoginProps> = ({ endpoint }) => {
       const response = await axios.post(`${endpoint}/api/auth/login`, data);
 
       localStorage.setItem("authToken", response.data.tokenDetails.token);
+      localStorage.setItem("userRole", data.role);
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid login credentials.");
